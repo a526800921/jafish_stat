@@ -188,7 +188,7 @@ componentDidMount() {
     })
 
     // 在特定情况下移除节点绑定
-    setTimeout(() => removeElement, 5000)
+    setTimeout(() => removeElement(), 5000)
 }
 
 componentWillUnmount() {
