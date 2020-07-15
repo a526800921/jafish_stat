@@ -1,7 +1,7 @@
 {
   "name": "@jafish/stat",
-  "version": "1.0.0",
-  "description": "用于web的埋点",
+  "version": "1.0.1",
+  "description": "埋点工具",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
