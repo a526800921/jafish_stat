@@ -143,7 +143,7 @@ $stat.useUpload((data, { cache = '' } = {}) => {
     // 最终结果
     console.log('useUpload', data, cache)
     // 获取上个页面的数据，如果需求需要的话
-    console.log('parent', $stat.useWatchRoute.getPrevPageOtherData())
+    console.log('parent', $stat.useWatchRoute.getPrevPageStatData())
 
     // 拿到结果后，可以进行缓存、防抖等一系列优化，然后进行上传给服务器
 })
