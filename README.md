@@ -199,8 +199,9 @@ componentWillUnmount() {
 
 ### 节点埋点封装
 
+> react
+
 ```js
-// react
 import React, { Component, createRef } from 'react'
 import * as $stat from '@jafish/stat'
 
@@ -237,6 +238,8 @@ export default class StatBox extends Component {
     xxx
 </StatBox>
 ```
+
+> vue
 
 ```js
 // vue
