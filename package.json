@@ -1,0 +1,23 @@
+{
+  "name": "@jafish/stat",
+  "version": "0.0.1",
+  "description": "用于web的埋点",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "typescript": "^3.9.5"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/a526800921/jafish_stat.git"
+  },
+  "dependencies": {
+    "merge": "^1.2.1"
+  }
+}
