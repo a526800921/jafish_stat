@@ -242,7 +242,6 @@ export default class StatBox extends Component {
 > vue
 
 ```js
-// vue
 import Vue from 'vue'
 import * as $stat from '@jafish/stat'
 
