@@ -10,6 +10,7 @@
 * 使用 useStat 时，需注意回调函数内是否有外部引用
 * 除去 useWatchRoute 及 element 相关的方法，stat本身可用在非web端（小程序之类）
 * 一般来说需要在 useUpload 这个统一埋点出口做一些符合需求的优化
+* 节点相关的埋点在 react 可以封装成一个组件，在 vue 可以封装成一个指令，便于使用
 
 ### 使用
 
@@ -67,7 +68,7 @@ $stat.overrideUseStat(callback => {
     // callback 为 useStat 传入的回调
     // 调用该方法后，默认的 merge 会被取消
     // 需要自己调用 usePipe 进行自定义的数据操作
-    // 详见源码中的 watch-route.ts 文件
+    // 使用方式可参考源码中的 watch-route.ts 文件
     ...
 })
 
@@ -76,9 +77,12 @@ $stat.overrideUseStat(callback => {
  * @desc watchRoute 能获取到路由相关信息，具体见 @jafish/watch-route
  * @param watchRoute 即 @jafish/watch-route 模块
  * @param {Object} options
- *        {Boolean} routeChangeClearUseStat 在路由切换的时候默认会移除上一个页面使用的 useStat，防止内存泄漏
+ *        {Boolean} options.routeChangeClearUseStat 在路由切换的时候默认会移除上一个页面使用的 useStat，防止内存泄漏
   */
 $stat.useWatchRoute(watchRoute, { routeChangeClearUseStat: true })
+
+// 使用 useWatchRoute 之后，可以获得一个获取上一个页面数据的便捷方法
+$stat.useWatchRoute.getPrevPageStatData()
 
 /**
  * @desc 用于处理节点数据的入口
@@ -98,7 +102,7 @@ $stat.useElement((param, data, ...params) => {
 })
 
 /**
- * @desc 添加需要展示埋点的节点，且同时支持点击埋点
+ * @desc 添加需要展示及点击埋点的节点
  * @param {HTMLElement} el 节点实例，因需要使用 el.getBoundingClientRect 判断节点在屏幕中的位置
  * @param {Object} data 埋点参数
  * @param {any} params 自定义参数
@@ -126,5 +130,137 @@ $stat.onElementView()
 
 // 监听全局 onscroll ，在滚动结束的时候自动的节点展示埋点
 $stat.onScrollAutoView()
+```
+
+### 实践
+
+```js
+// main.js
+import * as $stat from '@jafish/stat'
+import * as watchRoute from '@jafish/watch-route'
+
+$stat.useUpload((data, { cache = '' } = {}) => {
+    // 最终结果
+    console.log('useUpload', data, cache)
+    // 获取上个页面的数据，如果需求需要的话
+    console.log('parent', $stat.useWatchRoute.getPrevPageOtherData())
+
+    // 拿到结果后，可以进行缓存、防抖等一系列优化，然后进行上传给服务器
+})
+
+$stat.usePipe((data) => {
+    // 添加公共的默认参数
+    if (!data.target) data.target = '页面'
+    if (!data.action) data.action = 'view'
+    return data
+})
+
+// 可选
+$stat.useWatchRoute(watchRoute)
+
+// 节点埋点
+$stat.useElement((param, data, ...params) => {
+    console.log('useElement', param, data, ...params)
+
+    $stat.onStat({
+        ...data,
+        action: param.action
+    }, ...params)
+})
+
+// 页面滚动，自动触发节点展示埋点
+$stat.onScrollAutoView()
+
+
+// home.js
+componentDidMount() {
+    // 当前页面需要使用的默认参数
+    $stat.useStat(() => ({
+        page: '首页',
+    }))
+
+    // 页面展示埋点
+    $stat.onStat()
+
+    // 节点展示及点击埋点
+    const removeElement = $stat.onElement(this.div.current, {
+        target: 'div'
+    })
+
+    // 在特定情况下移除节点绑定
+    setTimeout(() => removeElement, 5000)
+}
+
+componentWillUnmount() {
+    // 页面销毁时，移除节点绑定
+    $stat.removeElement(this.div.current)
+}
+```
+
+### 节点埋点封装
+
+```js
+// react
+import React, { Component, createRef } from 'react'
+import * as $stat from '@jafish/stat'
+
+export default class StatBox extends Component {
+    constructor({ stat }) {
+        super()
+
+        this.box = createRef()
+    }
+
+    componentDidMount() {
+        const { stat } = this.props
+
+        $stat.onElement(this.box.current, stat)
+    }
+
+    componentWillUnmount() {
+        $stat.removeElement(this.box.current)
+    }
+
+    render() {
+        const { children } = this.props
+
+        return (
+            <div ref={this.box}>
+                {children}
+            </div>
+        )
+    }
+}
+
+// 使用
+<StatBox stat={{ target: 'box' }}>
+    xxx
+</StatBox>
+```
+
+```js
+// vue
+import Vue from 'vue'
+import * as $stat from '@jafish/stat'
+
+// 绑定
+const onElement = ( 
+    el, 
+    { 
+        value = {}
+    } = {},
+) => $stat.onElement(el, value)
+
+// 移除绑定
+const removeElement = (el) => $stat.removeElement(el)
+
+Vue.directive('stat', {
+    inserted: onElement,
+    componentUpdated: onElement,
+    unbind: removeElement,
+})
+
+// 使用
+<div v-stat="{ target: 'div' }"></div>
 ```
 

@@ -32,5 +32,11 @@ declare namespace Jafish_Stat {
         showed: Showed
     }
 
-
+    interface UseWatchRouteOptions{
+        routeChangeClearUseStat: boolean
+    }
+    interface UseWatchRoute {
+        (wr: any, options?: UseWatchRouteOptions): void
+        getPrevPageStatData?: () => KV
+    }
 }

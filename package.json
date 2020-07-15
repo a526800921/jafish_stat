@@ -1,6 +1,6 @@
 {
   "name": "@jafish/stat",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "description": "用于web的埋点",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",

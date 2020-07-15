@@ -15,7 +15,7 @@ let uploadCallback: Jafish_Stat.UploadCallback = (data, ...arg) => console.log('
 export const useUpload = (callback: Jafish_Stat.UploadCallback) => uploadCallback = callback
 
 // 发起埋点
-export const onStat = (data: Jafish_Stat.KV, ...arg: any[]): any => uploadCallback(handleData(data), ...arg)
+export const onStat = (data: Jafish_Stat.KV = {}, ...arg: any[]): any => uploadCallback(handleData(data), ...arg)
 
 // 添加处理埋点数据的回调
 const pipeCallbacks: Jafish_Stat.PipeCallback[] = []
