@@ -19,7 +19,7 @@ import * as $stat from '@jafish/stat'
 import * as watchRoute from '@jafish/watch-route'
 
 /**
- * @desc 统一的上传入口
+ * @description 统一的上传入口
  * @param {Object} data 发起埋点传入的数据
  * @param {any} params 发起埋点传入的其他参数，用于自定义操作，如上报记录缓存
  */
@@ -28,7 +28,7 @@ $stat.useUpload((data, ...params) => {
 })
 
 /**
- * @desc 发起埋点
+ * @description 发起埋点
  * @param {Object} data 埋点参数
  * @param {any} params 自定义参数
 */
@@ -41,7 +41,7 @@ $stat.onStat({
 }, ...params)
 
 /**
- * @desc 用于处理埋点数据的方法
+ * @description 用于处理埋点数据的方法
  * @param {Function} 在回调中处理数据，需返回处理后的数据
   */
 $stat.usePipe((data, ...params) => {
@@ -73,9 +73,9 @@ $stat.overrideUseStat(callback => {
 })
 
 /**
- * @desc 使用页面级的数据缓存，可选
- * @desc watchRoute 能获取到路由相关信息，具体见 @jafish/watch-route
- * @desc watchRoute 即 @jafish/watch-route 模块
+ * @description 使用页面级的数据缓存，可选
+ * @description watchRoute 能获取到路由相关信息，具体见 @jafish/watch-route
+ * @description watchRoute 即 @jafish/watch-route 模块
  * @param {Object} options
  * @param {Boolean} options.routeChangeClearUseStat 在路由切换的时候默认会移除上一个页面使用的 useStat，防止内存泄漏
   */
@@ -85,7 +85,7 @@ $stat.useWatchRoute(watchRoute, { routeChangeClearUseStat: true })
 $stat.useWatchRoute.getPrevPageStatData()
 
 /**
- * @desc 用于处理节点数据的入口
+ * @description 用于处理节点数据的入口
  * @param {Object} param
  * @param {string} param.action 节点上报时的来源 'view' -> 节点展示， 'click' -> 节点被点击
  * @param {Object} data 节点绑定时传入的数据
@@ -102,7 +102,7 @@ $stat.useElement((param, data, ...params) => {
 })
 
 /**
- * @desc 添加需要展示及点击埋点的节点
+ * @description 添加需要展示及点击埋点的节点
  * @param {HTMLElement} el 节点实例，因需要使用 el.getBoundingClientRect 判断节点在屏幕中的位置
  * @param {Object} data 埋点参数
  * @param {any} params 自定义参数
@@ -119,7 +119,7 @@ const removeElement = $stat.onElement(el, {
 removeElement()
 
 /**
- * @desc 移除埋点节点，以另一种方式移除
+ * @description 移除埋点节点，以另一种方式移除
  * @param {HTMLElement} el 节点实例
   */
 $stat.removeElement(el)
