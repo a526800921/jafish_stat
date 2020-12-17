@@ -75,9 +75,9 @@ $stat.overrideUseStat(callback => {
 /**
  * @desc 使用页面级的数据缓存，可选
  * @desc watchRoute 能获取到路由相关信息，具体见 @jafish/watch-route
- * @param watchRoute 即 @jafish/watch-route 模块
+ * @desc watchRoute 即 @jafish/watch-route 模块
  * @param {Object} options
- *        {Boolean} options.routeChangeClearUseStat 在路由切换的时候默认会移除上一个页面使用的 useStat，防止内存泄漏
+ * @param {Boolean} options.routeChangeClearUseStat 在路由切换的时候默认会移除上一个页面使用的 useStat，防止内存泄漏
   */
 $stat.useWatchRoute(watchRoute, { routeChangeClearUseStat: true })
 
@@ -87,7 +87,7 @@ $stat.useWatchRoute.getPrevPageStatData()
 /**
  * @desc 用于处理节点数据的入口
  * @param {Object} param
- *        {string} param.action 节点上报时的来源 'view' -> 节点展示， 'click' -> 节点被点击
+ * @param {string} param.action 节点上报时的来源 'view' -> 节点展示， 'click' -> 节点被点击
  * @param {Object} data 节点绑定时传入的数据
  * @param {any} params 发起埋点传入的其他参数
 */
