@@ -1,6 +1,6 @@
 {
   "name": "@jafish/stat",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "埋点工具",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -11,13 +11,11 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "typescript": "^3.9.5"
+    "typescript": "^3.9.5",
+    "merge": "^1.2.1"
   },
   "repository": {
     "type": "git",
     "url": "https://github.com/a526800921/jafish_stat.git"
-  },
-  "dependencies": {
-    "merge": "^1.2.1"
   }
 }
